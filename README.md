@@ -2,7 +2,7 @@
 
 Is a Studio for Lua LOVE 2D Framework Created In VB.Net
 using as editor the open Source FastColoredTextBox with 
-some changes in source. /n asd
+some changes in source.<br />
 
 #--Download--
 
