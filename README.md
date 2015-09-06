@@ -4,9 +4,9 @@ Is a Studio for Lua LOVE 2D Framework Created In VB.Net
 using as editor the open Source FastColoredTextBox with 
 some changes in source.
 
-#Download
+#--Download--
 
-Fownload The Merged(exe&dll) file
+Download The Merged(exe&dll) file
 [0.0.0.1] Version : https://www.mediafire.com/?mv82p7x6yhaqrnn
 
 #Donate
