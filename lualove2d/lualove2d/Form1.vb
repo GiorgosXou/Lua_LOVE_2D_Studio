@@ -393,6 +393,7 @@ Public Class Form1
                         With Fstclrtxtbox1
                             .Font = New Font("Consolas", CSng(11))
                             '.Language = Language.Lua
+                            .Language = Language.Custom
                             .Location = New Point(0, 0)
                             .ClearUndo()
                             .Dock = DockStyle.Fill
@@ -600,18 +601,17 @@ Public Class Form1
 
 
 
-            fstclrtxtbox.Range.SetFoldingMarkers("{", "}")
-            fstclrtxtbox.Range.SetFoldingMarkers("--\[\[", "\]\]")
+
 
             Parallel.For(0, fstclrtxtbox.LinesCount - 1,
                 Sub(i As Integer)
-                    Dim str As String = Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1")
+                    'Dim str As String = Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1")
 
-                    If fstclrtxtbox.GetLineText(i).Trim.StartsWith("if") AndAlso Not str.Trim.EndsWith("end") Or
-                       fstclrtxtbox.GetLineText(i).Trim.StartsWith("function") AndAlso Not str.Trim.EndsWith("end") Or
-                       fstclrtxtbox.GetLineText(i).Trim.StartsWith("local function") AndAlso Not str.Trim.EndsWith("end") Or
-                       fstclrtxtbox.GetLineText(i).Trim.StartsWith("while") AndAlso Not str.Trim.EndsWith("end") Or
-                       fstclrtxtbox.GetLineText(i).Trim.StartsWith("for") AndAlso Not str.Trim.EndsWith("end") Then
+                    If fstclrtxtbox.GetLineText(i).Trim.StartsWith("if") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
+                       fstclrtxtbox.GetLineText(i).Trim.StartsWith("function") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
+                       fstclrtxtbox.GetLineText(i).Trim.StartsWith("local function") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
+                       fstclrtxtbox.GetLineText(i).Trim.StartsWith("while") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
+                       fstclrtxtbox.GetLineText(i).Trim.StartsWith("for") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Then
                         iflist.Add(i)
 
                         If fstclrtxtbox.GetLineText(i).Trim.StartsWith("function") Or fstclrtxtbox.GetLineText(i).Trim.StartsWith("local function") Then
@@ -634,6 +634,7 @@ Public Class Form1
                         fstclrtxtbox(iflist(i)).FoldingStartMarker = "m" + fstclrtxtbox(iflist(i)).StartSpacesCount.ToString
                         fstclrtxtbox(endlist(iflist.Count - 1 - i)).FoldingEndMarker = "m" + fstclrtxtbox(endlist(iflist.Count - 1 - i)).StartSpacesCount.ToString
                     Catch ex As Exception
+                        ' MsgBox(ex.ToString)
                     End Try
 
                 Next
@@ -654,8 +655,9 @@ Public Class Form1
                     ToolStripCombobox1.Items.Add(FunctionList.Item(i))
                 Next
             End If
+            fstclrtxtbox.Range.SetFoldingMarkers("{", "}")
+            fstclrtxtbox.Range.SetFoldingMarkers("--\[\[", "\]\]")
         Catch ex As Exception
-
         End Try
     End Sub
 
@@ -958,76 +960,80 @@ Public Class Form1
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
 
         If Not TabControl1 Is Nothing AndAlso TabControl1.TabCount > 1 Then
-
-            fstclrtxtbox.DelayedEventsInterval = My.Settings.DelayedFoldInterval
-
-            For Each cntrl As Object In TabControl1.SelectedTab.Controls
-                If (cntrl.GetType() Is GetType(FastColoredTextBox)) Then
-                    fstclrtxtbox = cntrl
-                End If
-                If (cntrl.GetType() Is GetType(Splitter)) Then
-                    Aspliter = cntrl
-                End If
-                If (cntrl.GetType() Is GetType(DocumentMap)) Then
-                    ADocumentMap = cntrl
-                End If
-            Next
-            ToolStripCombobox1.Items.Clear()
-            ToolStripCombobox1.Text = ""
-
-            Dim FunctionList As New List(Of String)
-            Dim iflist As New List(Of Integer)
-            Dim endlist As New List(Of Integer)
-
-            For i As Integer = 0 To fstclrtxtbox.LinesCount - 1
+            Try
 
 
-                If fstclrtxtbox.GetLineText(i).Trim.StartsWith("if") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
-                fstclrtxtbox.GetLineText(i).Trim.StartsWith("function") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
-                fstclrtxtbox.GetLineText(i).Trim.StartsWith("local function") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
-                fstclrtxtbox.GetLineText(i).Trim.StartsWith("while") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
-                fstclrtxtbox.GetLineText(i).Trim.StartsWith("for") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Then
-                    iflist.Add(i)
-                    If fstclrtxtbox.GetLineText(i).Trim.StartsWith("function") Or fstclrtxtbox.GetLineText(i).Trim.StartsWith("local function") Then
-                        FunctionList.Add(fstclrtxtbox.GetLineText(i).Trim)
+                fstclrtxtbox.DelayedEventsInterval = My.Settings.DelayedFoldInterval
+
+                For Each cntrl As Object In TabControl1.SelectedTab.Controls
+                    If (cntrl.GetType() Is GetType(FastColoredTextBox)) Then
+                        fstclrtxtbox = cntrl
                     End If
-                    'spaces1 = fstclrtxtbox(i).StartSpacesCount
-                ElseIf fstclrtxtbox.GetLineText(i).Trim.StartsWith("end") Then 'AndAlso fstclrtxtbox(i).StartSpacesCount = spaces1 Then
-                    endlist.Add(i)
-                    'spaces1 = 0
+                    If (cntrl.GetType() Is GetType(Splitter)) Then
+                        Aspliter = cntrl
+                    End If
+                    If (cntrl.GetType() Is GetType(DocumentMap)) Then
+                        ADocumentMap = cntrl
+                    End If
+                Next
+                ToolStripCombobox1.Items.Clear()
+                ToolStripCombobox1.Text = ""
+
+                Dim FunctionList As New List(Of String)
+                Dim iflist As New List(Of Integer)
+                Dim endlist As New List(Of Integer)
+
+                For i As Integer = 0 To fstclrtxtbox.LinesCount - 1
+
+
+                    If fstclrtxtbox.GetLineText(i).Trim.StartsWith("if") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
+                    fstclrtxtbox.GetLineText(i).Trim.StartsWith("function") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
+                    fstclrtxtbox.GetLineText(i).Trim.StartsWith("local function") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
+                    fstclrtxtbox.GetLineText(i).Trim.StartsWith("while") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Or
+                    fstclrtxtbox.GetLineText(i).Trim.StartsWith("for") AndAlso Not Regex.Replace(fstclrtxtbox.GetLineText(i), "(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|--.*|/\*(?s:.*?)\*/", "$1").Trim.EndsWith("end") Then
+                        iflist.Add(i)
+                        If fstclrtxtbox.GetLineText(i).Trim.StartsWith("function") Or fstclrtxtbox.GetLineText(i).Trim.StartsWith("local function") Then
+                            FunctionList.Add(fstclrtxtbox.GetLineText(i).Trim)
+                        End If
+                        'spaces1 = fstclrtxtbox(i).StartSpacesCount
+                    ElseIf fstclrtxtbox.GetLineText(i).Trim.StartsWith("end") Then 'AndAlso fstclrtxtbox(i).StartSpacesCount = spaces1 Then
+                        endlist.Add(i)
+                        'spaces1 = 0
+                    End If
+
+
+                Next
+
+
+                If Not iflist.Count = 0 AndAlso Not endlist.Count = 0 Then ''  AndAlso iflist.Count = endlist.Count this is the reason for try because i find some errors
+                    For i As Integer = 0 To iflist.Count - 1
+                        ' MsgBox(iflist(i) & " " & endlist(iflist.Count - 1 - i))
+                        Try
+                            fstclrtxtbox(iflist(i)).FoldingStartMarker = "m" + fstclrtxtbox(iflist(i)).StartSpacesCount.ToString
+                            fstclrtxtbox(endlist(iflist.Count - 1 - i)).FoldingEndMarker = "m" + fstclrtxtbox(endlist(iflist.Count - 1 - i)).StartSpacesCount.ToString
+                        Catch ex As Exception
+                        End Try
+
+                    Next
                 End If
 
-
-            Next
-
-
-            If Not iflist.Count = 0 AndAlso Not endlist.Count = 0 Then ''  AndAlso iflist.Count = endlist.Count this is the reason for try because i find some errors
-                For i As Integer = 0 To iflist.Count - 1
-                    ' MsgBox(iflist(i) & " " & endlist(iflist.Count - 1 - i))
-                    Try
-                        fstclrtxtbox(iflist(i)).FoldingStartMarker = "m" + fstclrtxtbox(iflist(i)).StartSpacesCount.ToString
-                        fstclrtxtbox(endlist(iflist.Count - 1 - i)).FoldingEndMarker = "m" + fstclrtxtbox(endlist(iflist.Count - 1 - i)).StartSpacesCount.ToString
-                    Catch ex As ArgumentOutOfRangeException
-                    End Try
-
-                Next
-            End If
-
-            Dim newFuncorChanged As Boolean = False
-            For i As Integer = 0 To FunctionList.Count - 1
-                For Each item As String In ToolStripCombobox1.Items.ToString
-                    'Console.WriteLine(item)
-                    If Not item = FunctionList.Item(i) Then newFuncorChanged = True : Exit For
-                Next
-                If newFuncorChanged = True Then Exit For
-            Next
-
-            If newFuncorChanged = True Or ToolStripCombobox1.Items.Count = 0 Then
+                Dim newFuncorChanged As Boolean = False
                 For i As Integer = 0 To FunctionList.Count - 1
-                    ToolStripCombobox1.Items.Add(FunctionList.Item(i))
+                    For Each item As String In ToolStripCombobox1.Items.ToString
+                        'Console.WriteLine(item)
+                        If Not item = FunctionList.Item(i) Then newFuncorChanged = True : Exit For
+                    Next
+                    If newFuncorChanged = True Then Exit For
                 Next
-            End If
 
+                If newFuncorChanged = True Or ToolStripCombobox1.Items.Count = 0 Then
+                    For i As Integer = 0 To FunctionList.Count - 1
+                        ToolStripCombobox1.Items.Add(FunctionList.Item(i))
+                    Next
+                End If
+            Catch ex As Exception
+
+            End Try
         End If
     End Sub
 
