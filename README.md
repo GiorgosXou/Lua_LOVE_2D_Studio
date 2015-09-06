@@ -1,8 +1,8 @@
 #Lua LOVE 2D Studio
 
-Is a Studio for Lua LOVE 2D Framework Created In VB.Net
-using as editor the open Source FastColoredTextBox with 
-some changes in source.<br />
+Is a Studio for Lua LOVE 2D Framework Created In VB.Net<br/>
+using as editor the open Source FastColoredTextBox with <br/>
+some changes in source.
 
 #--Download--
 
