@@ -7,7 +7,8 @@ some changes in source.
 #--Download--
 
 Download The Merged(exe&dll) file<br/>
-[0.0.0.1] Version : https://www.mediafire.com/?mv82p7x6yhaqrnn
+[0.0.0.1] Version : https://www.mediafire.com/?mv82p7x6yhaqrnn<br/>
+![alt tag](http://i.imgur.com/M7NUD2K.png)
 
 #Donate
 
