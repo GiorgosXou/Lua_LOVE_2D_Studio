@@ -8,7 +8,6 @@ https://www.facebook.com/LuaLOVE2DStudio
 #--Download--
 
 Download The Merged(exe&dll) file for Windows XP and on<br/><br/>
-
 [0.0.0.2] Version : http://www.mediafire.com/?d2lgn4ll32eu9l3<br/>
 ++ An important issue fixed!<br/><br/>
 
