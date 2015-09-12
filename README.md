@@ -7,15 +7,6 @@ https://www.facebook.com/LuaLOVE2DStudio
 
 #--Download--
 
-<select name="Updates" size="5" style="width: 500px;">
-  <option>test1</option>
-  <option>test2</option>
-  <option>test3</option>
-  <option>test4</option>
-  <option>test5</option>
-  <option>test6</option>
-</select>
-
 Download The Merged(exe&dll) file for Windows XP and on<br/><br/>
 [0.0.0.2] Version : http://www.mediafire.com/?d2lgn4ll32eu9l3<br/>
 ++ An important issue fixed!<br/><br/>
