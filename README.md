@@ -7,10 +7,14 @@ https://www.facebook.com/LuaLOVE2DStudio
 
 #--Download--
 Download The Merged(exe&dll) file for Windows XP and on<br/><br/>
-
+- [0.0.0.3] Version : http://www.mediafire.com/?xjhf2cbgmxfwd7g<br/>
+++ erase system for spaces behind...<br/>
+++ 'love' keyword now has a 'pink' color<br/>
+++ now you can close tabs by right clicking on tab and open from Project>(Under)Files<br/>
+++ fixed comment issue<br/>
+++ you will need to make an update when it start again(for a tiny change)<br/>
+++ issues fixed and etc.<br/><br/> 
 - [0.0.0.2] Version : http://www.mediafire.com/?d2lgn4ll32eu9l3<br/>
-++ An important issue fixed!<br/><br/>
-- [0.0.0.1] Version : https://www.mediafire.com/?mv82p7x6yhaqrnn<br/>
 
 ![alt tag](http://i.imgur.com/M7NUD2K.png)
 
