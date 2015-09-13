@@ -66,7 +66,8 @@ CrtProject: If Not Directory.Exists(Form1.CurrentHardDriver & "Love2DStudio\Proj
                 Dim Fstclrtxtbox1 As New FastColoredTextBox
                 With Fstclrtxtbox1
                     .Font = New Font("Consolas", CSng(11))
-                    '.Language = Language.Lua
+                    .Language = Language.Custom
+                    .CommentPrefix = "--"
                     .Location = New Point(0, 0)
                     .ClearUndo()
                     .Dock = DockStyle.Fill

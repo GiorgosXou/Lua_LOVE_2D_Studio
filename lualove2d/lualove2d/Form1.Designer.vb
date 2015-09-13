@@ -128,7 +128,7 @@ Partial Class Form1
         Me.ToolStrip2.Location = New System.Drawing.Point(1, 62)
         Me.ToolStrip2.Name = "ToolStrip2"
         Me.ToolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
-        Me.ToolStrip2.Size = New System.Drawing.Size(602, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(633, 25)
         Me.ToolStrip2.TabIndex = 2
         Me.ToolStrip2.Text = "ToolStrip2"
         '
@@ -269,9 +269,11 @@ Partial Class Form1
         Me.ToolStripCombobox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(252, Byte), Integer), CType(CType(252, Byte), Integer))
         Me.ToolStripCombobox1.DropDownWidth = 350
         Me.ToolStripCombobox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ToolStripCombobox1.MaxDropDownItems = 9
         Me.ToolStripCombobox1.Name = "ToolStripCombobox1"
         Me.ToolStripCombobox1.Size = New System.Drawing.Size(200, 25)
         Me.ToolStripCombobox1.Text = "Function_List_From_LUA_files()"
+        Me.ToolStripCombobox1.ToolTipText = "Function List"
         '
         'ToolStripButton24
         '
@@ -348,7 +350,7 @@ Partial Class Form1
         Me.ToolStrip1.Location = New System.Drawing.Point(1, 37)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        Me.ToolStrip1.Size = New System.Drawing.Size(464, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(433, 25)
         Me.ToolStrip1.TabIndex = 1
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -365,47 +367,47 @@ Partial Class Form1
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.OpenToolStripMenuItem.Text = "Open"
         '
         'NewProjectToolStripMenuItem
         '
         Me.NewProjectToolStripMenuItem.Name = "NewProjectToolStripMenuItem"
-        Me.NewProjectToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewProjectToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.NewProjectToolStripMenuItem.Text = "New Project"
         '
         'ToolStripSeparator8
         '
         Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(140, 6)
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'SaveAllToolStripMenuItem
         '
         Me.SaveAllToolStripMenuItem.Name = "SaveAllToolStripMenuItem"
-        Me.SaveAllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.SaveAllToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.SaveAllToolStripMenuItem.Text = "Save All"
         '
         'ToolStripSeparator9
         '
         Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        Me.ToolStripSeparator9.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(140, 6)
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.CloseToolStripMenuItem.Text = "Close Project"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'ToolStripButton4

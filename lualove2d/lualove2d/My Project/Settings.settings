@@ -5,9 +5,6 @@
     <Setting Name="lovedir" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files\LOVE\</Value>
     </Setting>
-    <Setting Name="isfirstrun" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="DelayedFoldInterval" Type="System.String" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>

@@ -21,7 +21,7 @@ Public Class UpdateForm
 
         Dim file As StreamWriter
         file = My.Computer.FileSystem.OpenTextFileWriter(Form1.CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang", False)
-        file.WriteLine("love" & vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=8" & vbNewLine & " -" & vbNewLine & "}")
+        file.WriteLine("love" & vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=8" & vbNewLine & " [0.0.0.3]" & vbNewLine & "}")
         Dim i As Integer = 1
         file.Close()
         file = My.Computer.FileSystem.OpenTextFileWriter(Form1.CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang", True)
@@ -30,6 +30,7 @@ Public Class UpdateForm
         Dim site As String = "https://love2d.org/wiki/love"
 
         Dim Str As String = String.Empty
+        ' Dim Str2 As String = String.Empty
         Dim SVStr As String = String.Empty
         Dim CommentOfKeyword As String = String.Empty
         Dim Source_Code As String
@@ -45,32 +46,39 @@ bck:    Source_Code = New System.Net.WebClient().DownloadString(site)
         CommentOfKeyword = String.Empty
         FindKeyWord2 = False
 
+
         For Each ln As String In Source_Code.Split(vbLf)
             If Not ln.Trim = "<h2><span class=""mw-headline"" id=""Other_Languages"">Other Languages</span></h2>" And Not ln.Trim = "<h2><span class=""mw-headline"" id=""See_Also"">See Also</span></h2>" Then
 
-                If ln.Trim = "<h2><span class=""mw-headline"" id=""Modules"">Modules</span></h2>" Then imgIndex = 0
-                If ln.Trim = "<h2><span class=""mw-headline"" id=""Third-party_modules"">Third-party modules</span></h2>" Then imgIndex = 1
-                If ln.Trim = "<h2><span class=""mw-headline"" id=""Functions"">Functions</span></h2>" Then imgIndex = 2
-                If ln.Trim = "<h2><span class=""mw-headline"" id=""Types"">Types</span></h2>" Then imgIndex = 3
-                If ln.Trim = "<h2><span class=""mw-headline"" id=""Subtypes"">Subtypes</span></h2>" Then imgIndex = 4
-                If ln.Trim = "<h2><span class=""mw-headline"" id=""Callbacks"">Callbacks</span></h2>" Then imgIndex = 5
-                If ln.Trim = "<h2><span class=""mw-headline"" id=""Enums"">Enums</span></h2>" Then imgIndex = 6
-                If ln.Trim = "<h2><span class=""mw-headline"" id=""Constructors"">Constructors</span></h2>" Then imgIndex = 7
+                If ln.Trim = "<h2><span class=""mw-headline"" id=""Modules"">Modules</span></h2>" Then imgIndex = 0 ' : Str2 = String.Empty
+                If ln.Trim = "<h2><span class=""mw-headline"" id=""Third-party_modules"">Third-party modules</span></h2>" Then imgIndex = 1 ': Str2 = String.Empty
+                If ln.Trim = "<h2><span class=""mw-headline"" id=""Functions"">Functions</span></h2>" Then imgIndex = 2 ': Str2 = String.Empty
+                If ln.Trim = "<h2><span class=""mw-headline"" id=""Types"">Types</span></h2>" Then imgIndex = 3 ' : Str2 = String.Empty
+                If ln.Trim = "<h2><span class=""mw-headline"" id=""Subtypes"">Subtypes</span></h2>" Then imgIndex = 4 ' : Str2 = String.Empty
+                If ln.Trim = "<h2><span class=""mw-headline"" id=""Callbacks"">Callbacks</span></h2>" Then imgIndex = 5 ': Str2 = String.Empty
+                If ln.Trim = "<h2><span class=""mw-headline"" id=""Enums"">Enums</span></h2>" Then imgIndex = 6 ' : Str2 = String.Empty
+                If ln.Trim = "<h2><span class=""mw-headline"" id=""Constructors"">Constructors</span></h2>" Then imgIndex = 7 ': Str2 = String.Empty
+
+
 
                 If FindKeyWord = True AndAlso Not CommentOfKeyword.Trim = "" Then CommentOfKeyword &= ln.Trim & vbNewLine
                 If FindKeyWord = True AndAlso ln.Trim.StartsWith("<td style=""padding: 1px 5px 1px 5px; background-color: #ffffff; vertical-align: top;"">") Then CommentOfKeyword = ln.Trim.Replace("<td style=""padding: 1px 5px 1px 5px; background-color: #ffffff; vertical-align: top;"">""", "") : FindKeyWord2 = True
 
-                If FindKeyWord = True AndAlso FindKeyWord2 = True AndAlso ln.Trim.EndsWith("</td>") Then Str &= " || " & CommentOfKeyword.Replace("<td style=""padding: 1px 5px 1px 5px; background-color: #ffffff; vertical-align: top;"">", "").Replace("</td>", "") & vbNewLine : FindKeyWord = False : FindKeyWord2 = False
-                If ln.Trim.StartsWith("<td style=""padding: 1px 5px 1px 5px; background-color: #ffffff; vertical-align: top;""><a href=""/wiki/") Then Str &= ln.Trim.Replace("<td style=""padding: 1px 5px 1px 5px; background-color: #ffffff; vertical-align: top;""><a href=""/wiki/", "").Split("""")(0) : FindKeyWord = True
+                If FindKeyWord = True AndAlso FindKeyWord2 = True AndAlso ln.Trim.EndsWith("</td>") Then Str &= "|| " & CommentOfKeyword.Replace("<td style=""padding: 1px 5px 1px 5px; background-color: #ffffff; vertical-align: top;"">", "").Replace("</td>", "") & vbNewLine : FindKeyWord = False : FindKeyWord2 = False
+                If ln.Trim.StartsWith("<td style=""padding: 1px 5px 1px 5px; background-color: #ffffff; vertical-align: top;""><a href=""/wiki/") Then Str &= ln.Replace("<td style=""padding: 1px 5px 1px 5px; background-color: #ffffff; vertical-align: top;""><a href=""/wiki/", "").Split("""")(0).Trim : FindKeyWord = True
+
+
 
             Else
+                'If FuncTextBool = True Then MsgBox(Str)
+                ' MsgBox(Str)
                 For Each lnn As String In Str.Split(vbNewLine)
                     lnn = lnn.Trim
                     If Not SVStr.Contains(lnn) Then
                         i += 1
                         SVStr &= lnn & vbNewLine
                         site = "https://love2d.org/wiki/" & lnn.Split("||")(0)
-                        file.WriteLine(Regex.Replace(lnn.Replace("||", vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=" & imgIndex & vbNewLine), "\<[^\>]+\>", "") & vbNewLine & "}")
+                        file.WriteLine(Regex.Replace(lnn.Replace("||", vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=" & imgIndex & vbNewLine).Replace("\nEwLn\", vbNewLine), "\<[^\>]+\>", "") & vbNewLine & "}") ' "||", Str2 & vbNewLine ...
                         RichTextBox1.AppendText(lnn.Split("||")(0) & vbNewLine)
                         Me.Text = "Updating " & Date.Now.ToString & " [" & i & "/1040]"
                         GoTo bck

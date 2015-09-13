@@ -161,6 +161,7 @@ Public Class Form1
     Dim LuaCommentRegex1 As Regex, LuaCommentRegex2 As Regex, LuaCommentRegex3 As Regex
 
     Dim LuaKeywordRegex As Regex
+    Dim LuaLoveKeywordRegex As Regex
     Dim LuaNumberRegex As Regex
     Dim LuaStringRegex As Regex
     Dim LuaFunctionsRegex As Regex
@@ -185,6 +186,7 @@ Public Class Form1
         Button1.Location = New Point(940, -2)
         TabControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         ToolStripTextBox2.MaxLength = 5
+        ToolStripCombobox1.MaxDropDownItems = 5
 
         If My.Settings.DelayedFoldInterval = "" Then My.Settings.DelayedFoldInterval = "5"
 
@@ -197,30 +199,25 @@ Public Class Form1
         LuaCommentRegex2 = New Regex("(--\[\[.*?\]\])|(--\[\[.*)", RegexOptions.Singleline Or RegexCompiledOption)
         LuaCommentRegex3 = New Regex("(--\[\[.*?\]\])|(.*\]\])", RegexOptions.Singleline Or RegexOptions.RightToLeft Or RegexCompiledOption)
         LuaNumberRegex = New Regex("\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b", RegexCompiledOption)
+        LuaLoveKeywordRegex = New Regex("\b(love)\b", RegexCompiledOption)
         LuaKeywordRegex = New Regex("\b(and|break|do|else|elseif|end|false|for|function|if|in|local|nil|not|or|repeat|return|then|true|until|while)\b", RegexCompiledOption)
 
-        LuaFunctionsRegex = New Regex("\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|load|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b", RegexCompiledOption)
+        LuaFunctionsRegex = New Regex("\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b", RegexCompiledOption)
 
 
         Me.CenterToScreen()
         TabControl1.TabPages.Clear()
         TabControl1.TabPages.Add("Main Tab")
 
-        If My.Settings.isfirstrun = True Then
-            My.Settings.isfirstrun = False
 
-            'CODE HERE - THIS IS THE FIRST RUN
-            If My.Computer.FileSystem.FileExists(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang") Then ' Only For Old Users Of this studio , for updating keywordlist lol :P ....
-                If Not My.Computer.FileSystem.ReadAllText(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang").Contains("iMgIndXNuMinT=") Then
-                    My.Computer.FileSystem.DeleteFile(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang")
-                End If
+        If My.Computer.FileSystem.FileExists(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang") Then ' Only For Old Users Of this studio , for updating keywordlist lol :P ....
+            If Not My.Computer.FileSystem.ReadAllText(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang").StartsWith("love" & vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=8" & vbNewLine & " [0.0.0.3]" & vbNewLine & "}") Then
+                My.Computer.FileSystem.DeleteFile(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang")
             End If
-            My.Settings.Save()
-        Else
-            'CODE HERE - THIS IS NOT THE FIRST RUN
         End If
 
-        ToolStripTextBox1.Text = My.Settings.lovedir
+
+            ToolStripTextBox1.Text = My.Settings.lovedir
 
         If Not My.Computer.FileSystem.FileExists(My.Settings.lovedir & "love.exe") Then
             Using New Centered_MessageBox(Me)
@@ -394,6 +391,7 @@ Public Class Form1
                             .Font = New Font("Consolas", CSng(11))
                             '.Language = Language.Lua
                             .Language = Language.Custom
+                            .CommentPrefix = "--"
                             .Location = New Point(0, 0)
                             .ClearUndo()
                             .Dock = DockStyle.Fill
@@ -454,12 +452,13 @@ Public Class Form1
                         popupMenu.MinFragmentLength = 2
                         popupMenu.ImageList = ImageList1
 
-                        BuildAutocompleteMenu()
                         fstclrtxtbox.Select()
+                        BuildAutocompleteMenu()
+
                         'fstclrtxtbox.OnTextChangedDelayed(fstclrtxtbox.Range)
                         fstclrtxtbox.Text = My.Computer.FileSystem.ReadAllText(CurrentHardDriver & "Love2DStudio\Projects\" & CurrentProject & "\" & line)
 
-                        fstclrtxtbox.Range.ClearFoldingMarkers()
+                        fstclrtxtbox.ClearUndo()
 
 
                         LuaSyntaxHighlight(fstclrtxtbox.VisibleRange)
@@ -1112,7 +1111,7 @@ Public Class Form1
 
         If fstclrtxtbox Is Nothing Then Exit Sub
 
-        For Each r In fstclrtxtbox.Range.GetRanges(Regex.Replace(ToolStripCombobox1.SelectedItem.ToString, "\([a-zA-Z0-9_, ]+\)", "")) '.Replace(ToolStripCombobox1.SelectedItem.ToString.Substring(ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") + 1, ToolStripCombobox1.SelectedItem.ToString.IndexOf(")", ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") + 1) - ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") - 1))) '.Substring(ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") + 1, ToolStripCombobox1.SelectedItem.ToString.IndexOf(")", ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") + 1) - ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") - 1))
+        For Each r In fstclrtxtbox.Range.GetRanges(Regex.Replace(ToolStripCombobox1.SelectedItem.ToString, "\([a-zA-Z0-9._, ]+\)", "")) '.Replace(ToolStripCombobox1.SelectedItem.ToString.Substring(ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") + 1, ToolStripCombobox1.SelectedItem.ToString.IndexOf(")", ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") + 1) - ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") - 1))) '.Substring(ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") + 1, ToolStripCombobox1.SelectedItem.ToString.IndexOf(")", ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") + 1) - ToolStripCombobox1.SelectedItem.ToString.IndexOf("(") - 1))
             fstclrtxtbox.Selection = r
             fstclrtxtbox.DoSelectionVisible()
         Next
@@ -1124,9 +1123,6 @@ Public Class Form1
 
     End Sub
 
-    Private Sub ContextMenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ContextMenuStrip1.ItemClicked
-
-    End Sub
 
     Private Sub TabControl1_MouseClick(sender As Object, e As MouseEventArgs) Handles TabControl1.MouseClick
 
@@ -1143,14 +1139,131 @@ Public Class Form1
                 If TabControl1.GetTabRect(i).Contains(e.X, e.Y) Then
                     With ContextMenuStrip1
                         .Items.Clear()
-                        .Items.Add("Close """ & TabControl1.TabPages.Item(i).Text & """").Tag = TabControl1.TabPages.Item(i).Text
-                        .Items.Add("Delete """ & TabControl1.TabPages.Item(i).Text & """").Tag = TabControl1.TabPages.Item(i).Text
+                        .Items.Add("Close """ & TabControl1.TabPages.Item(i).Text & """").Tag = i
+                        .Items.Add("Delete """ & TabControl1.TabPages.Item(i).Text & """").Tag = i
                     End With
                     Exit For
                 End If
 
             Next
         End If
+    End Sub
+
+    Private Sub ContextMenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ContextMenuStrip1.ItemClicked
+        If e.ClickedItem.Text.StartsWith("Close") Then
+
+            For Each cntrl As Object In TabControl1.TabPages.Item(e.ClickedItem.Tag).Controls
+                If (cntrl.GetType() Is GetType(FastColoredTextBox)) Then
+
+                    cntrl.SaveToFile(CurrentHardDriver & "Love2DStudio\Projects\" & CurrentProject & "\" & TabControl1.TabPages.Item(e.ClickedItem.Tag).Text, Encoding.UTF8)
+                    Label2.Text = TabControl1.TabPages.Item(e.ClickedItem.Tag).Text & "  - File Successfully Saved [✓]"
+                    TabControl1.TabPages.RemoveAt(e.ClickedItem.Tag)
+
+                    Exit For
+                End If
+            Next
+        Else
+
+        End If
+    End Sub
+
+    Private Sub ToolStripComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBox2.SelectedIndexChanged
+
+        For Each tabpg As TabPage In TabControl1.TabPages
+            If tabpg.Text = ToolStripComboBox2.SelectedItem.ToString Then Exit Sub
+        Next
+
+        If My.Computer.FileSystem.FileExists(CurrentHardDriver & "Love2DStudio\Projects\" & CurrentProject & "\" & ToolStripComboBox2.SelectedItem.ToString) Then
+
+
+            TabControl1.TabPages.Add(ToolStripComboBox2.SelectedItem.ToString)
+
+            Dim splitter1 As New Splitter
+            Aspliter = splitter1
+            splitter1.Dock = System.Windows.Forms.DockStyle.Right
+            splitter1.Name = "splitter1"
+            splitter1.TabIndex = 3
+            splitter1.TabStop = False
+            splitter1.BorderStyle = BorderStyle.FixedSingle
+            splitter1.Hide()
+
+            Dim Fstclrtxtbox1 As New FastColoredTextBox
+            With Fstclrtxtbox1
+                .Font = New Font("Consolas", CSng(11))
+                '.Language = Language.Lua
+                .Language = Language.Custom
+                .CommentPrefix = "--"
+                .Location = New Point(0, 0)
+                .ClearUndo()
+                .Dock = DockStyle.Fill
+                .Cursor = Cursors.IBeam
+                .BackColor = Color.White
+                .ForeColor = Color.Black
+                .BorderStyle = BorderStyle.FixedSingle
+                .LineNumberColor = Color.Black
+                .IndentBackColor = Color.FromArgb(230, 230, 230)
+                .SelectionColor = Color.LightBlue
+                .ServiceLinesColor = Color.Gray
+                .ShowFoldingLines = True
+                .Paddings = New System.Windows.Forms.Padding(0)
+                .BringToFront()
+                .DelayedEventsInterval = My.Settings.DelayedFoldInterval
+                .CaretColor = Color.Black
+                .CurrentLineColor = Color.Gray
+                .ImeMode = Windows.Forms.ImeMode.On 'Windows.Forms.ImeMode.On  'System.Globalization.ChineseLunisolarCalendar.ChineseEra
+                .Cursor = Cursors.IBeam
+            End With
+
+            Dim documentMap1 As New DocumentMap
+            ADocumentMap = documentMap1
+            documentMap1.Dock = System.Windows.Forms.DockStyle.Right
+            documentMap1.BackColor = Color.White
+            documentMap1.ForeColor = Color.FromArgb(0, 83, 156)
+            documentMap1.Name = "documentMap1"
+            documentMap1.TabIndex = 1
+            documentMap1.Target = Fstclrtxtbox1
+            documentMap1.Text = "documentMap1"
+            documentMap1.Size = New Size(184, TabControl1.Size.Height)
+            documentMap1.Hide()
+            ' documentMap1.ForeColor = Color.Black
+
+            For i = 0 To TabControl1.TabPages.Count - 1
+                If TabControl1.TabPages.Item(i).Text = ToolStripComboBox2.SelectedItem.ToString Then
+
+                    TabControl1.TabPages.Item(i).Controls.Add(splitter1)
+                    TabControl1.TabPages.Item(i).Controls.Add(Fstclrtxtbox1)
+                    TabControl1.TabPages.Item(i).Controls.Add(documentMap1)
+
+                    TabControl1.SelectTab(i)
+                    Exit For
+                End If
+            Next
+
+
+            fstclrtxtbox = Fstclrtxtbox1
+            Label2.Text = "Ready"
+
+
+            popupMenu = New AutocompleteMenu(fstclrtxtbox)
+            popupMenu.SearchPattern = "[\w\.:=!<>]"
+            popupMenu.AppearInterval = 1
+            popupMenu.ToolTipDuration = 11000
+            popupMenu.MinFragmentLength = 2
+            popupMenu.ImageList = ImageList1
+
+            fstclrtxtbox.Select()
+            BuildAutocompleteMenu()
+
+            'fstclrtxtbox.OnTextChangedDelayed(fstclrtxtbox.Range)
+            fstclrtxtbox.Text = My.Computer.FileSystem.ReadAllText(CurrentHardDriver & "Love2DStudio\Projects\" & CurrentProject & "\" & ToolStripComboBox2.SelectedItem.ToString)
+
+            fstclrtxtbox.ClearUndo()
+
+
+            LuaSyntaxHighlight(fstclrtxtbox.VisibleRange)
+
+        End If
+
     End Sub
 
     Private Sub CloseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CloseToolStripMenuItem.Click
@@ -1190,6 +1303,7 @@ Public Class Form1
 
     Private Sub fstclrtxtbox_MouseDown(sender As Object, e As MouseEventArgs) Handles fstclrtxtbox.MouseDown
         TabControl1.ContextMenuStrip = Nothing
+
     End Sub
 
     Private Sub fstclrtxtbox_Scroll(sender As Object, e As ScrollEventArgs) Handles fstclrtxtbox.Scroll
@@ -1214,6 +1328,7 @@ Public Class Form1
 
     Dim BlueBoldStyle As Style = New TextStyle(New SolidBrush(Color.FromArgb(0, 43, 116)), Nothing, FontStyle.Regular)
     Dim BrownStyle As Style = New TextStyle(Brushes.Brown, Nothing, FontStyle.Italic)
+    Dim PinkStyle As Style = New TextStyle(New SolidBrush(Color.FromArgb(183, 6, 122)), Nothing, FontStyle.Regular)
     Dim GreenStyle As Style = New TextStyle(Brushes.Green, Nothing, FontStyle.Italic)
     Dim MagentaStyle As Style = New TextStyle(Brushes.SlateBlue, Nothing, FontStyle.Regular)
     Dim MaroonStyle As Style = New TextStyle(Brushes.Maroon, Nothing, FontStyle.Regular)
@@ -1226,18 +1341,21 @@ Public Class Form1
         'clear style of changed range
         range.ClearStyle(New Style() {BrownStyle, GreenStyle, MagentaStyle, BlueBoldStyle, MaroonStyle})
 
-            'string highlighting
-            range.SetStyle(BrownStyle, LuaStringRegex)
-            'comment highlighting
-            range.SetStyle(GreenStyle, LuaCommentRegex1)
-            range.SetStyle(GreenStyle, LuaCommentRegex2)
-            range.SetStyle(GreenStyle, LuaCommentRegex3)
-            'number highlighting
-            range.SetStyle(MagentaStyle, LuaNumberRegex)
-            'keyword highlighting
-            range.SetStyle(BlueBoldStyle, LuaKeywordRegex)
-            'functions highlighting
-            range.SetStyle(MaroonStyle, LuaFunctionsRegex)
+
+
+        'string highlighting
+        range.SetStyle(BrownStyle, LuaStringRegex)
+        'comment highlighting
+        range.SetStyle(GreenStyle, LuaCommentRegex1)
+        range.SetStyle(GreenStyle, LuaCommentRegex2)
+        range.SetStyle(GreenStyle, LuaCommentRegex3)
+        'number highlighting
+        range.SetStyle(MagentaStyle, LuaNumberRegex)
+        'keyword highlighting
+        range.SetStyle(BlueBoldStyle, LuaKeywordRegex)
+        range.SetStyle(PinkStyle, LuaLoveKeywordRegex)
+        'functions highlighting
+        range.SetStyle(MaroonStyle, LuaFunctionsRegex)
 
        ' Catch ex As Exception ' it happens some times lol :P
 
@@ -1279,14 +1397,14 @@ Public Class Form1
             If Regex.IsMatch(args.LineText, "\b(then)\s*\S+") Then
                 Return
             End If
-            'start of operator block
-            If Regex.IsMatch(args.LineText, "^\s*(function|do|for|while|repeat|if)\b") Then
-                args.ShiftNextLines = args.TabLength
-                Return
-            End If
+        'start of operator block
+        If Regex.IsMatch(args.LineText, "^\s*(function|local function|do|for|while|repeat|if)\b") Then
+            args.ShiftNextLines = args.TabLength
+            Return
+        End If
 
-            'Statements else, elseif, case etc
-            If Regex.IsMatch(args.LineText, "^\s*(else|elseif)\b", RegexOptions.IgnoreCase) Then
+        'Statements else, elseif, case etc
+        If Regex.IsMatch(args.LineText, "^\s*(else|elseif)\b", RegexOptions.IgnoreCase) Then
                 args.Shift = -args.TabLength
                 Return
             End If
@@ -1337,6 +1455,24 @@ Public Class Form1
     Private Sub ToolStripTextBox2_MouseDown(sender As Object, e As MouseEventArgs) Handles ToolStripTextBox2.MouseDown
 
     End Sub
+    Dim bcksps As Boolean = True  ' lol 
+    Private Sub fstclrtxtbox_KeyDown(sender As Object, e As KeyEventArgs) Handles fstclrtxtbox.KeyDown
+        If e.KeyCode = Keys.Back AndAlso bcksps = True Then
+
+            If fstclrtxtbox.Selection.Start.iChar > 0 AndAlso fstclrtxtbox(fstclrtxtbox.Selection.Start.iLine).Text.Substring(0, fstclrtxtbox.Selection.Start.iChar).Trim = "" Then
+                bcksps = False
+                SendKeys.Send("^({BACKSPACE})")
+                SendKeys.Send("{BACKSPACE}")
+            End If
+
+        End If
+    End Sub
+
+    Private Sub fstclrtxtbox_KeyUp(sender As Object, e As KeyEventArgs) Handles fstclrtxtbox.KeyUp
+        bcksps = True
+    End Sub
+
+
 
 
 
