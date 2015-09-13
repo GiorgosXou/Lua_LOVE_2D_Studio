@@ -13,7 +13,12 @@ Download The Merged(exe&dll) file for Windows XP and on<br/><br/>
 ++ now you can close tabs by right clicking on tab and open from Project>(Under)Files<br/>
 ++ fixed comment issue<br/>
 ++ you will need to make an update when it start again(for a tiny change)<br/>
-++ issues fixed and etc.<br/><br/> 
+++ issues fixed and etc.<br/>
+  [and i am going to add]
+-+ Variables auto detect and autocomplete...<br/>
+-+ Delete file<br/>
+-+ Open Existing lua Files<br/>
+-+ etc.<br/><br/>
 - [0.0.0.2] Version : http://www.mediafire.com/?d2lgn4ll32eu9l3<br/>
 
 ![alt tag](http://i.imgur.com/M7NUD2K.png)
