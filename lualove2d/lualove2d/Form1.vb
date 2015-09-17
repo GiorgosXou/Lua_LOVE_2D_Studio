@@ -177,6 +177,11 @@ Public Class Form1
         End Get
     End Property
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+        Me.Size = New Size(980, 548)
+        Panel1.Size = New Size(978, 522)
+        TabControl1.Size = New Size(980, 433)
+
         PictureBox1.Location = New Point(8, 7)
         ToolStrip1.Location = New Point(1, 37)
         ToolStrip2.Location = New Point(1, 62)
@@ -184,6 +189,15 @@ Public Class Form1
         Button3.Location = New Point(864, -2)
         Button2.Location = New Point(902, -2)
         Button1.Location = New Point(940, -2)
+        Label1.Location = New Point(40, 15)
+        Label2.Location = New Point(2, 530)
+
+        Button3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        Button2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        Button1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+
+
+
         TabControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         ToolStripTextBox2.MaxLength = 5
         ToolStripCombobox1.MaxDropDownItems = 5
@@ -211,7 +225,7 @@ Public Class Form1
 
 
         If My.Computer.FileSystem.FileExists(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang") Then ' Only For Old Users Of this studio , for updating keywordlist lol :P ....
-            If Not My.Computer.FileSystem.ReadAllText(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang").StartsWith("love" & vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=8" & vbNewLine & " [0.0.0.3]" & vbNewLine & "}") Then
+            If Not My.Computer.FileSystem.ReadAllText(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang").StartsWith("love" & vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=8" & vbNewLine & " [0.0.0.4]" & vbNewLine & "}") Then
                 My.Computer.FileSystem.DeleteFile(CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang")
             End If
         End If

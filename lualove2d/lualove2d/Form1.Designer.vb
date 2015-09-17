@@ -128,7 +128,7 @@ Partial Class Form1
         Me.ToolStrip2.Location = New System.Drawing.Point(1, 62)
         Me.ToolStrip2.Name = "ToolStrip2"
         Me.ToolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
-        Me.ToolStrip2.Size = New System.Drawing.Size(633, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(602, 25)
         Me.ToolStrip2.TabIndex = 2
         Me.ToolStrip2.Text = "ToolStrip2"
         '

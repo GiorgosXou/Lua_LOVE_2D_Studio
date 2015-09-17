@@ -3,8 +3,15 @@ Imports FastColoredTextBoxNS
 
 Public Class CreateNewFormForm
     Private Sub CreateNewFormForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Size = New Size(393, 133)
+
         Me.Location = Form1.Location + New Point((Form1.Width / 2) - Me.Width / 2, (Form1.Height / 2) - Me.Height / 2)
         TextBox1.Text = ""
+
+        Label2.Location = New Point(12, 9)
+        TextBox1.Location = New Point(12, 25)
+        Button1.Location = New Point(267, 54)
+
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

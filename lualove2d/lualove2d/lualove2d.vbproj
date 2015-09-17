@@ -49,6 +49,9 @@
   <PropertyGroup>
     <ApplicationIcon>favicon %282%29.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FastColoredTextBox">
       <HintPath>..\..\..\..\..\Desktop\FastColoredTextBox-master\FastColoredTextBox\bin\Debug\FastColoredTextBox.dll</HintPath>
@@ -146,6 +149,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

@@ -5,9 +5,18 @@ Public Class CreateNewProjectForm
     Public fs As FileStream
 
     Private Sub CreateNewProjectForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Size = New Size(392, 179)
         Me.Location = Form1.Location + New Point((Form1.Width / 2) - Me.Width / 2, (Form1.Height / 2) - Me.Height / 2)
         TextBox1.Text = ""
         TextBox2.Text = ""
+
+        Label1.Location = New Point(12, 20)
+        TextBox1.Location = New Point(12, 36)
+        Label2.Location = New Point(12, 60)
+        TextBox2.Location = New Point(12, 76)
+        Button1.Location = New Point(267, 105)
+
+
     End Sub
 
     Private Sub CreateNewProjectForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown

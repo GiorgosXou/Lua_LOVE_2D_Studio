@@ -21,7 +21,7 @@ Public Class UpdateForm
 
         Dim file As StreamWriter
         file = My.Computer.FileSystem.OpenTextFileWriter(Form1.CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang", False)
-        file.WriteLine("love" & vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=8" & vbNewLine & " [0.0.0.3]" & vbNewLine & "}")
+        file.WriteLine("love" & vbNewLine & "{" & vbNewLine & "iMgIndXNuMinT=8" & vbNewLine & " [0.0.0.4]" & vbNewLine & "}")
         Dim i As Integer = 1
         file.Close()
         file = My.Computer.FileSystem.OpenTextFileWriter(Form1.CurrentHardDriver & "Love2DStudio\Settings\LuaKeywords.pLang", True)
