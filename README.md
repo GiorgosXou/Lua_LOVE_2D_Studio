@@ -7,7 +7,7 @@ https://www.facebook.com/LuaLOVE2DStudio
 
 #--Download--
 Download The Merged(exe&dll) file for Windows XP and on<br/><br/>
-- [0.0.0.4] Version : http://www.mediafire.com/?vtr4c6s2a2sri8n<br/>
+- [0.0.0.4] Version : http://www.mediafire.com/?vtr4c6s2a2sri8n [nothing special new version next Sunday/Sat.]<br/>
 ++ Important Issue Fixed (location of controls issue)<br/>
 ++ Update 'Keywords' again (sorry but LÖVE 0.9.2 Released)<br/><br/>
 - [0.0.0.3] Version : http://www.mediafire.com/?xjhf2cbgmxfwd7g<br/>
