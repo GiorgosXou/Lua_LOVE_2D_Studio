@@ -10,7 +10,7 @@ Download The Merged(exe&dll) file for Windows XP and on<br/><br/>
 - [0.0.0.4] Version : http://www.mediafire.com/?vtr4c6s2a2sri8n<br/>
 --- [nothing special new version next Sunday/Sat.]<br/>
 ++ Important Issue Fixed (location of controls issue)<br/>
-++ Update 'Keywords' again (i read wrong Date on 0.9.2 lol but anyway)<br/><br/>
+++ Update 'Keywords' again (i read wrongly the date on 0.9.2 lol but anyway)<br/><br/>
 - [0.0.0.3] Version : http://www.mediafire.com/?xjhf2cbgmxfwd7g<br/>
 ++ erase system for spaces behind...<br/>
 ++ 'love' keyword now has a 'pink' color<br/>
